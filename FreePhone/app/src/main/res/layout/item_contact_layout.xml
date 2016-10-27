@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="userInfo"
+            type="com.freephone.justfofun.freephone.model.ContactInfo"/>
+    </data>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/patient_contact"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            app:placeholderImage="@drawable/icon_default_patient"
+            app:placeholderImageScaleType="fitCenter"
+            app:roundAsCircle="true" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_gravity="center_vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{userInfo.contactName}"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{userInfo.contactNum}"/>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

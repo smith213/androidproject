@@ -10,8 +10,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+<<<<<<< HEAD
 import com.freephone.justfofun.freephone.LoginActivity;
 import com.freephone.justfofun.freephone.MyAccountManager;
+=======
+import com.freephone.justfofun.freephone.controller.accountOperation.LoginActivity;
+>>>>>>> dev
 import com.freephone.justfofun.freephone.R;
 
 import javax.inject.Inject;

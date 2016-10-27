@@ -2,10 +2,10 @@ package com.freephone.justfofun.freephone;
 
 import android.app.ActivityManager;
 import android.content.Context;
-import android.util.Log;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.freephone.justfofun.freephone.account.MyAccountManager;
 import com.freephone.justfofun.freephone.common.fresco.OkHttpImagePipelineConfigFactory;
 import com.freephone.justfofun.freephone.inject.InjectApplication;
 import com.freephone.justfofun.freephone.inject.component.AppComponent;

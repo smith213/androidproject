@@ -20,6 +20,7 @@ public class SharedPreferencesUtils {
         editor = sp.edit();
     }
 
+<<<<<<< HEAD
     public boolean saveBoolean(String key,boolean value){
         editor.putBoolean(key,value);
         return editor.commit();
@@ -27,6 +28,21 @@ public class SharedPreferencesUtils {
 
     public boolean saveStringSet(String key, Set<String> value){
         editor.putStringSet(key,value);
+=======
+    public void saveBoolean(String key,boolean value){
+        editor.putBoolean(key,value);
+    }
+
+    public void saveStringSet(String key, Set<String> value){
+        editor.putStringSet(key,value);
+    }
+
+    public void saveString(String key,String value){
+        editor.putString(key,value);
+    }
+
+    public boolean commit(){
+>>>>>>> dev
         return editor.commit();
     }
 
@@ -37,4 +53,11 @@ public class SharedPreferencesUtils {
     public Set<String> readStringSet(String key){
         return sp.getStringSet(key,new HashSet<>());
     }
+<<<<<<< HEAD
+=======
+
+    public String readString(String key){
+        return sp.getString(key,"");
+    }
+>>>>>>> dev
 }

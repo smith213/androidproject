@@ -2,7 +2,11 @@ package com.freephone.justfofun.freephone.mvp.mvppresenter;
 
 import android.content.Context;
 
+<<<<<<< HEAD
 import com.freephone.justfofun.freephone.MyAccountManager;
+=======
+import com.freephone.justfofun.freephone.account.MyAccountManager;
+>>>>>>> dev
 import com.freephone.justfofun.freephone.mvp.core.MvpBasePresenter;
 import com.freephone.justfofun.freephone.mvp.mvpview.DailActivityView;
 import com.freephone.justfofun.freephone.restful.ApiService;

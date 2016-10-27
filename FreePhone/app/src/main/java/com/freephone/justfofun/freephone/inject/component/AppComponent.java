@@ -3,7 +3,11 @@ package com.freephone.justfofun.freephone.inject.component;
 import android.content.Context;
 
 import com.freephone.justfofun.freephone.DoctorApplication;
+<<<<<<< HEAD
 import com.freephone.justfofun.freephone.MyAccountManager;
+=======
+import com.freephone.justfofun.freephone.account.MyAccountManager;
+>>>>>>> dev
 import com.freephone.justfofun.freephone.inject.module.AppModule;
 import com.freephone.justfofun.freephone.restful.ApiService;
 

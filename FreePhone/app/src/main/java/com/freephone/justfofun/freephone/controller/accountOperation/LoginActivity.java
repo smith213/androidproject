@@ -1,14 +1,16 @@
-package com.freephone.justfofun.freephone;
+package com.freephone.justfofun.freephone.controller.accountOperation;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+<<<<<<< HEAD:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/LoginActivity.java
 import android.content.SharedPreferences;
+=======
+>>>>>>> dev:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/controller/accountOperation/LoginActivity.java
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
 import android.content.CursorLoader;
@@ -21,15 +23,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+
+import com.freephone.justfofun.freephone.account.MyAccountManager;
+import com.freephone.justfofun.freephone.R;
+import com.freephone.justfofun.freephone.controller.dailUtils.DailActivity;
+import com.freephone.justfofun.freephone.inject.InjectActivity;
+import com.freephone.justfofun.freephone.inject.component.ActivityComponent;
+import com.freephone.justfofun.freephone.utils.SharedPreferencesUtils;
 
 import com.freephone.justfofun.freephone.inject.InjectActivity;
 import com.freephone.justfofun.freephone.inject.component.ActivityComponent;
@@ -44,8 +50,11 @@ import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
+<<<<<<< HEAD:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/LoginActivity.java
 
 import butterknife.OnClick;
+=======
+>>>>>>> dev:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/controller/accountOperation/LoginActivity.java
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -107,22 +116,23 @@ public class LoginActivity extends InjectActivity implements LoaderCallbacks<Cur
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
+        mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> {
+            if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                attemptLogin();
+                return true;
             }
+            return false;
         });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(view -> attemptLogin());
 
         Button registerButton = (Button) findViewById(R.id.register_button);
+<<<<<<< HEAD:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/LoginActivity.java
         registerButton.setOnClickListener(v->RegisterActivity.launch(this));
+=======
+        registerButton.setOnClickListener(v-> RegisterActivity.launch(this));
+>>>>>>> dev:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/controller/accountOperation/LoginActivity.java
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
@@ -141,7 +151,13 @@ public class LoginActivity extends InjectActivity implements LoaderCallbacks<Cur
         for (String name:DUMMY_CREDENTIALS) names.add(name);
         if(!mFirstLoginPreferences.readBoolean("firstLogin")) {
             mSharedPreferences.saveStringSet("names",names);
+<<<<<<< HEAD:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/LoginActivity.java
             mFirstLoginPreferences.saveBoolean("firstLogin",true);
+=======
+            mSharedPreferences.commit();
+            mFirstLoginPreferences.saveBoolean("firstLogin",true);
+            mFirstLoginPreferences.commit();
+>>>>>>> dev:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/controller/accountOperation/LoginActivity.java
         }
         getLoaderManager().initLoader(0, null, this);
     }
@@ -233,8 +249,16 @@ public class LoginActivity extends InjectActivity implements LoaderCallbacks<Cur
             Bundle bundle = new Bundle();
             bundle.putString(DailActivity.NAME,email);
             bundle.putString(DailActivity.PASSWORD,password);
+<<<<<<< HEAD:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/LoginActivity.java
             mLoginPreferences.saveBoolean("login",true);
             myAccountManager.addAccount(email,password);
+=======
+            myAccountManager.addAccount(email,password);
+            myAccountManager.setUserName(email);
+            mLoginPreferences.saveBoolean("login",true);
+            mLoginPreferences.saveString("loginName",email);
+            mLoginPreferences.commit();
+>>>>>>> dev:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/controller/accountOperation/LoginActivity.java
             mAuthTask.execute((Void) DailActivity.launch(this,bundle));
         }
     }

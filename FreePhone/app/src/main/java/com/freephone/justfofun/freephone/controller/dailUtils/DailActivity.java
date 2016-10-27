@@ -1,4 +1,4 @@
-package com.freephone.justfofun.freephone;
+package com.freephone.justfofun.freephone.controller.dailUtils;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -20,11 +19,17 @@ import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.freephone.justfofun.freephone.account.MyAccountManager;
 import com.freephone.justfofun.freephone.R;
+import com.freephone.justfofun.freephone.controller.accountOperation.LoginActivity;
 import com.freephone.justfofun.freephone.inject.component.ActivityComponent;
 import com.freephone.justfofun.freephone.mvp.MvpBaseActivity;
 import com.freephone.justfofun.freephone.mvp.mvppresenter.DailActivityPresenter;
 import com.freephone.justfofun.freephone.mvp.mvpview.DailActivityView;
+<<<<<<< HEAD:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/DailActivity.java
+=======
+import com.freephone.justfofun.freephone.utils.PhoneNumUtils;
+>>>>>>> dev:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/controller/dailUtils/DailActivity.java
 import com.freephone.justfofun.freephone.utils.SharedPreferencesUtils;
 
 import java.util.regex.Matcher;
@@ -34,6 +39,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static android.view.KeyEvent.KEYCODE_BACK;
+import static com.freephone.justfofun.freephone.utils.PhoneNumUtils.isMobileNO;
 
 import static android.view.KeyEvent.KEYCODE_BACK;
 
@@ -73,6 +82,11 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
 
     private SharedPreferencesUtils mSharedPreferences;
 
+<<<<<<< HEAD:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/DailActivity.java
+=======
+    private String userName;
+
+>>>>>>> dev:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/controller/dailUtils/DailActivity.java
     private boolean isConnectSuccess = false;
 
     private  TelephonyManager tManager; //监听通话状态
@@ -82,13 +96,21 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
         Fresco.initialize(this);
         setContentView(R.layout.activity_dail);
 
+        mSharedPreferences = new SharedPreferencesUtils(this,"loginInfo");
+        userName = mSharedPreferences.readString("loginName");
+
+        setTitle(userName+"的专属电话");
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null){
             name = bundle.getString(NAME);
             password = bundle.getString(PASSWORD);
         }
 
+<<<<<<< HEAD:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/DailActivity.java
         mSharedPreferences = new SharedPreferencesUtils(this,"loginInfo");
+=======
+
+>>>>>>> dev:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/controller/dailUtils/DailActivity.java
 
         tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         PhoneStateListener pListener=new PhoneStateListener(){
@@ -143,6 +165,7 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
         logoutLayout.setOnClickListener(v->{
             getPresenter().tryLogout();
         });
+<<<<<<< HEAD:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/DailActivity.java
     }
 
     @Override
@@ -156,12 +179,26 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
             }
         }
         return super.onKeyDown(keyCode, event);
+=======
+>>>>>>> dev:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/controller/dailUtils/DailActivity.java
     }
 
-    public boolean isMobileNO(String mobiles) {
-        Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$");
-        Matcher m = p.matcher(mobiles);
-        return m.matches();
+    @OnClick(R.id.contact_layout)
+    void gotoContactList(){
+        ShowContactListActivity.launch(this);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if((keyCode == KEYCODE_BACK)){
+            if(myAccountManager.isLogin()) {
+                Intent home = new Intent(Intent.ACTION_MAIN);
+                home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                home.addCategory(Intent.CATEGORY_HOME);
+                startActivity(home);
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -201,6 +238,11 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
     @Override
     public void getOutSuccess() {
         mSharedPreferences.saveBoolean("login",false);
+<<<<<<< HEAD:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/DailActivity.java
+=======
+        mSharedPreferences.saveString("loginName","");
+        mSharedPreferences.commit();
+>>>>>>> dev:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/controller/dailUtils/DailActivity.java
         Intent intent = new Intent(this,LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -208,6 +250,10 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
 
     @Override
     public void getOutFailed() {
+<<<<<<< HEAD:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/DailActivity.java
         Toast.makeText(this,"退出失败",Toast.LENGTH_LONG);
+=======
+        Toast.makeText(this,"退出失败",Toast.LENGTH_LONG).show();
+>>>>>>> dev:FreePhone/app/src/main/java/com/freephone/justfofun/freephone/controller/dailUtils/DailActivity.java
     }
 }
