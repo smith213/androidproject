@@ -2,7 +2,7 @@ package com.freephone.justfofun.freephone.mvp.mvppresenter;
 
 import android.content.Context;
 
-import com.freephone.justfofun.freephone.MyAccountManager;
+import com.freephone.justfofun.freephone.account.MyAccountManager;
 import com.freephone.justfofun.freephone.mvp.core.MvpBasePresenter;
 import com.freephone.justfofun.freephone.mvp.mvpview.DailActivityView;
 import com.freephone.justfofun.freephone.restful.ApiService;
@@ -11,7 +11,6 @@ import com.freephone.justfofun.freephone.restful.model.CallPhoneParam;
 
 import javax.inject.Inject;
 
-import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;

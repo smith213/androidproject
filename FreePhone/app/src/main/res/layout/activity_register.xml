@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.freephone.justfofun.freephone.RegisterActivity">
+    tools:context="com.freephone.justfofun.freephone.controller.accountOperation.RegisterActivity">
 
     <LinearLayout
         android:id="@+id/email_login_form"

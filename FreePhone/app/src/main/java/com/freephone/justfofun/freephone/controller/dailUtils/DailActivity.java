@@ -1,14 +1,9 @@
-package com.freephone.justfofun.freephone;
+package com.freephone.justfofun.freephone.controller.dailUtils;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.accounts.AccountManagerFuture;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -20,11 +15,14 @@ import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.freephone.justfofun.freephone.account.MyAccountManager;
 import com.freephone.justfofun.freephone.R;
+import com.freephone.justfofun.freephone.controller.accountOperation.LoginActivity;
 import com.freephone.justfofun.freephone.inject.component.ActivityComponent;
 import com.freephone.justfofun.freephone.mvp.MvpBaseActivity;
 import com.freephone.justfofun.freephone.mvp.mvppresenter.DailActivityPresenter;
 import com.freephone.justfofun.freephone.mvp.mvpview.DailActivityView;
+import com.freephone.justfofun.freephone.utils.PhoneNumUtils;
 import com.freephone.justfofun.freephone.utils.SharedPreferencesUtils;
 
 import java.util.regex.Matcher;
@@ -34,8 +32,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.view.KeyEvent.KEYCODE_BACK;
+import static com.freephone.justfofun.freephone.utils.PhoneNumUtils.isMobileNO;
 
 public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityPresenter> implements DailActivityView{
     public static final String NAME = "name";
@@ -73,6 +73,8 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
 
     private SharedPreferencesUtils mSharedPreferences;
 
+    private String userName;
+
     private boolean isConnectSuccess = false;
 
     private  TelephonyManager tManager; //监听通话状态
@@ -82,6 +84,9 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
         Fresco.initialize(this);
         setContentView(R.layout.activity_dail);
 
+        userName = myAccountManager.getUserName();
+
+        setTitle("你的专属电话");
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null){
             name = bundle.getString(NAME);
@@ -145,6 +150,11 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
         });
     }
 
+    @OnClick(R.id.contact_layout)
+    void gotoContactList(){
+        ShowContactListActivity.launch(this);
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if((keyCode == KEYCODE_BACK)){
@@ -156,12 +166,6 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
             }
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    public boolean isMobileNO(String mobiles) {
-        Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$");
-        Matcher m = p.matcher(mobiles);
-        return m.matches();
     }
 
     @Override

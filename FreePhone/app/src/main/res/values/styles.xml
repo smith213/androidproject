@@ -23,4 +23,20 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="LoadingDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:background">@drawable/loading_dialog_bg</item>
+    </style>
+
+    <!-- 加载进度条 -->
+    <style name="ProgressBarLoading">
+        <item name="android:indeterminateDrawable">@drawable/loading_progress_anim</item>
+        <item name="android:minWidth">50dp</item>
+        <item name="android:maxWidth">50dp</item>
+        <item name="android:minHeight">50dp</item>
+        <item name="android:maxHeight">50dp</item>
+    </style>
+
 </resources>

@@ -1,8 +1,7 @@
-package com.freephone.justfofun.freephone;
+package com.freephone.justfofun.freephone.controller.accountOperation;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -18,6 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.freephone.justfofun.freephone.account.MyAccountManager;
+import com.freephone.justfofun.freephone.R;
 import com.freephone.justfofun.freephone.inject.InjectActivity;
 import com.freephone.justfofun.freephone.inject.component.ActivityComponent;
 import com.freephone.justfofun.freephone.utils.SharedPreferencesUtils;

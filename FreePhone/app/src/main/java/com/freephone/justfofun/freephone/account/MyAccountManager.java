@@ -1,4 +1,4 @@
-package com.freephone.justfofun.freephone;
+package com.freephone.justfofun.freephone.account;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -8,6 +8,9 @@ import android.accounts.OperationCanceledException;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+
+import com.freephone.justfofun.freephone.BuildConfig;
+import com.freephone.justfofun.freephone.R;
 
 import java.io.IOException;
 
@@ -28,6 +31,8 @@ public class MyAccountManager {
     AccountManager mAccountManager;
 
     private String mAccountType;
+
+    private String userName;
 
     private String tokenType = "person";
 
@@ -51,6 +56,14 @@ public class MyAccountManager {
                 }
             }
         }
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Observable<Boolean> deleteAccount() {
