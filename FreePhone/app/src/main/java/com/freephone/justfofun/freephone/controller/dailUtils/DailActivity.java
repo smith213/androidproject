@@ -84,16 +84,17 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
         Fresco.initialize(this);
         setContentView(R.layout.activity_dail);
 
-        userName = myAccountManager.getUserName();
+        mSharedPreferences = new SharedPreferencesUtils(this,"loginInfo");
+        userName = mSharedPreferences.readString("loginName");
 
-        setTitle("你的专属电话");
+        setTitle(userName+"的专属电话");
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null){
             name = bundle.getString(NAME);
             password = bundle.getString(PASSWORD);
         }
 
-        mSharedPreferences = new SharedPreferencesUtils(this,"loginInfo");
+
 
         tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         PhoneStateListener pListener=new PhoneStateListener(){
@@ -205,6 +206,8 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
     @Override
     public void getOutSuccess() {
         mSharedPreferences.saveBoolean("login",false);
+        mSharedPreferences.saveString("loginName","");
+        mSharedPreferences.commit();
         Intent intent = new Intent(this,LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

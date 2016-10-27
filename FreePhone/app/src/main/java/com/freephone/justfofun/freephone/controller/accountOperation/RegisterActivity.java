@@ -133,6 +133,7 @@ public class RegisterActivity extends InjectActivity {
             }
             names.add(nameText.getText().toString());
             mSharedPreferences.saveStringSet("names",names);
+            mSharedPreferences.commit();
 //            myAccountManager.addAccount(nameText.getText().toString(),passwordText.getText().toString());
             Toast.makeText(this,"欢迎加入无产阶级大家庭！",Toast.LENGTH_LONG);
             finish();

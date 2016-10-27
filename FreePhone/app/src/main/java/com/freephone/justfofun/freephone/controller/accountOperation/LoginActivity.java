@@ -134,7 +134,9 @@ public class LoginActivity extends InjectActivity implements LoaderCallbacks<Cur
         for (String name:DUMMY_CREDENTIALS) names.add(name);
         if(!mFirstLoginPreferences.readBoolean("firstLogin")) {
             mSharedPreferences.saveStringSet("names",names);
+            mSharedPreferences.commit();
             mFirstLoginPreferences.saveBoolean("firstLogin",true);
+            mFirstLoginPreferences.commit();
         }
         getLoaderManager().initLoader(0, null, this);
     }
@@ -226,9 +228,11 @@ public class LoginActivity extends InjectActivity implements LoaderCallbacks<Cur
             Bundle bundle = new Bundle();
             bundle.putString(DailActivity.NAME,email);
             bundle.putString(DailActivity.PASSWORD,password);
-            mLoginPreferences.saveBoolean("login",true);
             myAccountManager.addAccount(email,password);
             myAccountManager.setUserName(email);
+            mLoginPreferences.saveBoolean("login",true);
+            mLoginPreferences.saveString("loginName",email);
+            mLoginPreferences.commit();
             mAuthTask.execute((Void) DailActivity.launch(this,bundle));
         }
     }

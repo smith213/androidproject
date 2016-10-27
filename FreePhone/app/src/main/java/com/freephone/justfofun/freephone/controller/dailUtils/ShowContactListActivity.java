@@ -32,6 +32,7 @@ import com.freephone.justfofun.freephone.restful.RestfulResponseUtils;
 import com.freephone.justfofun.freephone.restful.model.CallPhoneParam;
 import com.freephone.justfofun.freephone.ui.LoadingDialog;
 import com.freephone.justfofun.freephone.ui.SimpleListDividerDecorator;
+import com.freephone.justfofun.freephone.utils.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,13 +76,20 @@ public class ShowContactListActivity extends InjectActivity {
     @Inject
     ApiService mApiService;
 
+    private SharedPreferencesUtils mSharedPreferences;
+
+    private String userName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding  = DataBindingUtil.setContentView(this,R.layout.activity_show_contact_list);
 
+        mSharedPreferences = new SharedPreferencesUtils(this,"loginInfo");
+        userName = mSharedPreferences.readString("loginName");
+
         if(myAccountManager.isLogin()){
-            setTitle("你的联系人");
+            setTitle(userName+"的联系人");
         }
 
         initView();
