@@ -25,11 +25,15 @@ public class DoctorApplication extends InjectApplication {
 
     private static final String XIAO_MI_PUSH_TAG = "xiaoMiPush";
 
+    @Inject
+    MyAccountManager myAccountManager;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
+        myAccountManager.removeExpiredAccount();
+        initFresco();
     }
 
     @Override

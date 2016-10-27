@@ -2,6 +2,7 @@ package com.freephone.justfofun.freephone.mvp.mvppresenter;
 
 import android.content.Context;
 
+import com.freephone.justfofun.freephone.MyAccountManager;
 import com.freephone.justfofun.freephone.mvp.core.MvpBasePresenter;
 import com.freephone.justfofun.freephone.mvp.mvpview.DailActivityView;
 import com.freephone.justfofun.freephone.restful.ApiService;
@@ -10,6 +11,7 @@ import com.freephone.justfofun.freephone.restful.model.CallPhoneParam;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -21,13 +23,31 @@ import rx.schedulers.Schedulers;
 public class DailActivityPresenter extends MvpBasePresenter<DailActivityView>{
     private Context mContext;
     private Subscription callPhoneWhenNotOpenPhoneConsultSubscription;
-
     @Inject
     ApiService apiService;
 
     @Inject
+    MyAccountManager myAccountManager;
+
+    @Inject
     public DailActivityPresenter(Context context){
         this.mContext = context.getApplicationContext();
+    }
+
+    public void tryLogout(){
+        myAccountManager.deleteAccount()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(()->{
+                    if (getView()!=null) getView().getOut();
+                })
+                .subscribe(result->{
+                    if(result){
+                        if(getView()!=null) getView().getOutSuccess();
+                    }else {
+                        if (getView()!=null) getView().getOutFailed();
+                    }
+                });
     }
 
     public void callPhoneWhenNotOpenPhoneConsult(String callerPhoneNumber, String receiverPhoneNumber) {

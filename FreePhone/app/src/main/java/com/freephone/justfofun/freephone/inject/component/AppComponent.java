@@ -3,6 +3,7 @@ package com.freephone.justfofun.freephone.inject.component;
 import android.content.Context;
 
 import com.freephone.justfofun.freephone.DoctorApplication;
+import com.freephone.justfofun.freephone.MyAccountManager;
 import com.freephone.justfofun.freephone.inject.module.AppModule;
 import com.freephone.justfofun.freephone.restful.ApiService;
 
@@ -20,6 +21,8 @@ public interface AppComponent {
     Context context();
 
     ApiService apiService();
+
+    MyAccountManager myAccountManager();
 
     void inject(DoctorApplication application);
 }

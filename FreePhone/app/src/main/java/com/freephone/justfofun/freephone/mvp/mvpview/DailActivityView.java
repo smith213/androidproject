@@ -10,4 +10,10 @@ public interface DailActivityView extends MvpView {
     void dailSuccess();
 
     void dialFailed(String errorMessage);
+
+    void getOut();
+
+    void getOutSuccess();
+
+    void getOutFailed();
 }

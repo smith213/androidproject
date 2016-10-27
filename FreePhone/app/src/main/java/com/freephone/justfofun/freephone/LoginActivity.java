@@ -3,6 +3,8 @@ package com.freephone.justfofun.freephone;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -29,18 +31,28 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.freephone.justfofun.freephone.inject.InjectActivity;
+import com.freephone.justfofun.freephone.inject.component.ActivityComponent;
+import com.freephone.justfofun.freephone.utils.SharedPreferencesUtils;
+
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import javax.inject.Inject;
+
+import butterknife.OnClick;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends InjectActivity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -70,12 +82,28 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
+    @Inject
+    MyAccountManager myAccountManager;
+
+    private SharedPreferencesUtils mSharedPreferences;
+    private SharedPreferencesUtils mLoginPreferences;
+    private SharedPreferencesUtils mFirstLoginPreferences;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(myAccountManager.isLogin()) {
+            Intent intent = new Intent(this,DailActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mSharedPreferences = new SharedPreferencesUtils(this,"account");
+        mLoginPreferences = new SharedPreferencesUtils(this,"loginInfo");
+        mFirstLoginPreferences = new SharedPreferencesUtils(this,"init");
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -91,15 +119,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+        mEmailSignInButton.setOnClickListener(view -> attemptLogin());
 
+        Button registerButton = (Button) findViewById(R.id.register_button);
+        registerButton.setOnClickListener(v->RegisterActivity.launch(this));
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    @Override
+    protected void initInject(ActivityComponent component) {
+        component.inject(this);
     }
 
     private void populateAutoComplete() {
@@ -107,6 +137,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             return;
         }
 
+        Set<String> names = new HashSet<>();
+        for (String name:DUMMY_CREDENTIALS) names.add(name);
+        if(!mFirstLoginPreferences.readBoolean("firstLogin")) {
+            mSharedPreferences.saveStringSet("names",names);
+            mFirstLoginPreferences.saveBoolean("firstLogin",true);
+        }
         getLoaderManager().initLoader(0, null, this);
     }
 
@@ -197,21 +233,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             Bundle bundle = new Bundle();
             bundle.putString(DailActivity.NAME,email);
             bundle.putString(DailActivity.PASSWORD,password);
+            mLoginPreferences.saveBoolean("login",true);
+            myAccountManager.addAccount(email,password);
             mAuthTask.execute((Void) DailActivity.launch(this,bundle));
         }
     }
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        for(String credential:DUMMY_CREDENTIALS){
-            if (credential.equals(email)) return true;
-        }
-        return false;
+        if (mSharedPreferences.readStringSet("names").contains(email)) return true;
+        else return false;
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() == 8;
     }
 
     /**
@@ -329,11 +365,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                if (credential.equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return format.format(new Date()).equals(mPassword);
-                }
+            if (mSharedPreferences.readStringSet("names").contains(mEmail)) {
+                // Account exists, return true if the password matches.
+                return format.format(new Date()).equals(mPassword);
             }
 
             // TODO: register the new account here.

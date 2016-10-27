@@ -1,14 +1,20 @@
 package com.freephone.justfofun.freephone;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerFuture;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.view.KeyEvent;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +25,7 @@ import com.freephone.justfofun.freephone.inject.component.ActivityComponent;
 import com.freephone.justfofun.freephone.mvp.MvpBaseActivity;
 import com.freephone.justfofun.freephone.mvp.mvppresenter.DailActivityPresenter;
 import com.freephone.justfofun.freephone.mvp.mvpview.DailActivityView;
+import com.freephone.justfofun.freephone.utils.SharedPreferencesUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,6 +34,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.view.KeyEvent.KEYCODE_BACK;
 
 public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityPresenter> implements DailActivityView{
     public static final String NAME = "name";
@@ -41,8 +50,14 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
     @BindView(R.id.callee_text)
     TextView calleeText;
 
+    @BindView(R.id.contact_layout)
+    LinearLayout contactLayout;
+
     @BindView(R.id.caller_text)
     TextView callerText;
+
+    @BindView(R.id.logout_layout)
+    RelativeLayout logoutLayout;
 
     @BindView(R.id.patient_header_simpledraweeview)
     SimpleDraweeView callerPic;
@@ -52,6 +67,11 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
 
     @BindView(R.id.click_text)
     TextView clickText;
+
+    @Inject
+    MyAccountManager myAccountManager;
+
+    private SharedPreferencesUtils mSharedPreferences;
 
     private boolean isConnectSuccess = false;
 
@@ -63,8 +83,12 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
         setContentView(R.layout.activity_dail);
 
         Bundle bundle = getIntent().getExtras();
-        name = bundle.getString(NAME);
-        password = bundle.getString(PASSWORD);
+        if(bundle!=null){
+            name = bundle.getString(NAME);
+            password = bundle.getString(PASSWORD);
+        }
+
+        mSharedPreferences = new SharedPreferencesUtils(this,"loginInfo");
 
         tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         PhoneStateListener pListener=new PhoneStateListener(){
@@ -115,6 +139,23 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
                 Toast.makeText(this,"电话输入有误",Toast.LENGTH_LONG).show();
             }
         });
+
+        logoutLayout.setOnClickListener(v->{
+            getPresenter().tryLogout();
+        });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if((keyCode == KEYCODE_BACK)){
+            if(myAccountManager.isLogin()) {
+                Intent home = new Intent(Intent.ACTION_MAIN);
+                home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                home.addCategory(Intent.CATEGORY_HOME);
+                startActivity(home);
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     public boolean isMobileNO(String mobiles) {
@@ -150,5 +191,23 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
     public void dialFailed(String errorMessage) {
         clickText.setText("拨打电话");
         Toast.makeText(this,errorMessage,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void getOut() {
+
+    }
+
+    @Override
+    public void getOutSuccess() {
+        mSharedPreferences.saveBoolean("login",false);
+        Intent intent = new Intent(this,LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    @Override
+    public void getOutFailed() {
+        Toast.makeText(this,"退出失败",Toast.LENGTH_LONG);
     }
 }
