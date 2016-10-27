@@ -4,8 +4,14 @@
     <!-- Strings related to login -->
     <string name="prompt_name">名前は？</string>
     <string name="prompt_password">一番の大切な日？</string>
+    <string name="hint">组织要看你悟性够不够</string>
     <string name="action_sign_in">世界无产阶级联合起来打穷资本家！</string>
+    <string name="action_register">加入我们的队伍，打土豪，分号码</string>
+    <string name="register_button">毫不犹豫的加入</string>
+    <string name="vow">信号满格，我从此开始拨号，停机为止。\n我将不断电、不断网、不挂机。\n我将不吝时分，不舍昼夜。\n我将尽我所能，延长通话。\n我是资本家忠实的掘墓人，压迫者最坚定的反对者。\n我是被压迫者忠实的盟友，划破沉默的铃声，鼓舞无产阶级的号角，守卫穷苦人民的卫士。\n我将时间与忠诚献给组织，此时如斯，刻刻皆然。</string>
     <string name="action_sign_in_short">Sign in</string>
+    <string name="tips">请牢记我们的</string>
+    <string name="tipsvow">誓言</string>
     <string name="error_invalid_email">你不是坚定的无产者</string>
     <string name="error_invalid_password">偷的号吧你，密码都不知道</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -17,4 +23,5 @@
     <string name="title_activity_dial">来放他的血</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="account_type">com.freephone.justforfun.freephone</string>
 </resources>

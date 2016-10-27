@@ -9,6 +9,9 @@ import android.content.Context;
 
 
 import com.freephone.justfofun.freephone.DailActivity;
+import com.freephone.justfofun.freephone.LoginActivity;
+import com.freephone.justfofun.freephone.MyAccountManager;
+import com.freephone.justfofun.freephone.RegisterActivity;
 import com.freephone.justfofun.freephone.inject.module.ActivityModule;
 import com.freephone.justfofun.freephone.inject.module.ActivityScope;
 import com.freephone.justfofun.freephone.restful.ApiService;
@@ -25,5 +28,11 @@ public interface ActivityComponent {
 
     ApiService apiService();
 
+    MyAccountManager myAccountManager();
+
+    void inject(LoginActivity loginActivity);
+
     void inject(DailActivity dailActivity);
+
+    void inject(RegisterActivity registerActivity);
 }

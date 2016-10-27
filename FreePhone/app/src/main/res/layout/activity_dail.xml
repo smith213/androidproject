@@ -49,28 +49,76 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/dail_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_centerInParent="true">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/patient_header_simpledraweeview"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            app:placeholderImage="@drawable/icon_default_patient"
-            app:placeholderImageScaleType="fitCenter"
-            app:roundAsCircle="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/name_text"
-            android:text="打给资本家"/>
+            android:layout_weight="1"
+            android:id="@+id/contact_layout"
+            android:orientation="vertical">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/patient_contact"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                app:placeholderImage="@drawable/icon_default_patient"
+                app:placeholderImageScaleType="fitCenter"
+                app:roundAsCircle="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="从通讯录里找"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/logout_layout"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="隐姓埋名，\n保留革命\n的火种"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/dail_layout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/patient_header_simpledraweeview"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                app:placeholderImage="@drawable/icon_default_patient"
+                app:placeholderImageScaleType="fitCenter"
+                app:roundAsCircle="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/name_text"
+                android:text="打给资本家"/>
+        </LinearLayout>
     </LinearLayout>
+
+
 
     <LinearLayout
         android:id="@+id/call_phone_layout"
