@@ -215,6 +215,6 @@ public class DailActivity extends MvpBaseActivity<DailActivityView,DailActivityP
 
     @Override
     public void getOutFailed() {
-        Toast.makeText(this,"退出失败",Toast.LENGTH_LONG);
+        Toast.makeText(this,"退出失败",Toast.LENGTH_LONG).show();
     }
 }
